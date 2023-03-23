@@ -1,0 +1,19 @@
+[package]
+name = "stock-metrics-adapter"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+stock-metrics-kernel = { path = "../stock-metrics-kernel" }
+sqlx = { version = "0.5", features = ["runtime-tokio-rustls", "mysql", "chrono"] }
+anyhow = "1.0.44"
+tokio = { version = "1.12.0", features = ["rt", "macros", "test-util"] }
+async-trait = "0.1.51"
+chrono = "0.4.19"
+ulid = "0.4.1"
+aws-config = "0.3.0"
+aws-sdk-dynamodb = "0.3.0"
+http = "0.2.5"
+derive-new = "0.5.9"
