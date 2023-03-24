@@ -17,14 +17,11 @@ This app now takes advantage of the following tools:
 - MySQL
 - DynamoDB
 
-### Setting up database tables
-
-Please run SQLs in `migrations` directory. `up.sql` can be up tables, `down.sql` removes them.
-
 ### Run the app
 
-```
-cargo run
+```sh
+$ cp .env.sample .env
+$ make run
 ```
 
 After running the command, you can see tracing logs.
