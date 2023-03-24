@@ -16,6 +16,8 @@ services:
       ]
     ports:
       - 3306:3306
+    volumes:
+      - ./mock/mysql/:/docker-entrypoint-initdb.d/
 
   dynamodb:
     image: amazon/dynamodb-local:1.21.0

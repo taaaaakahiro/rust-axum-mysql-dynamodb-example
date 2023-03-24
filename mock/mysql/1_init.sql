@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS `users`(
+    `id` INT(20) AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT NOW() NOT NULL,
+    PRIMARY KEY (`id`)
+);

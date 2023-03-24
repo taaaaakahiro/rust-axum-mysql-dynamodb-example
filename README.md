@@ -9,14 +9,13 @@ Stock price and stats viewer.
 Launch the middleware by executing docker compose:
 
 ```
-cd local-middleware
 docker compose up -d
 ```
 
 This app now takes advantage of the following tools:
 
 - MySQL
-- DynamoDB (future)
+- DynamoDB
 
 ### Setting up database tables
 
@@ -47,7 +46,7 @@ This example has 4 workspaces as following:
 
 
 ## DynamoDB
-- テーブル作成
+- create table
 ```sh
 $ aws dynamodb \
   --endpoint-url http://localhost:8000 \
@@ -60,11 +59,11 @@ $ aws dynamodb \
   --billing-mode PAY_PER_REQUEST
 
 ```
-- テーブル一覧
+- list table
 ```sh
-$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+$ aws dynamodb list-tables --endpoint-url http://localhost:{PORT}
 ```
-- アイテム作成
+- create item
 ```sh
-$ aws dynamodb put-item --endpoint-url http://localhost:8000 --table-name example --item '{"Id": {"N": "1"}, "Name": {"S": "user1"}}'
+$ aws dynamodb put-item --endpoint-url http://localhost:{PORT} --table-name example --item '{"Id": {"N": "1"}, "Name": {"S": "user1"}, "Password": {"S": "pw1"}}'
 ```
