@@ -44,3 +44,27 @@ This example has 4 workspaces as following:
 - stock-metrics-app (app or usecase)
 - stock-metrics-kernel (kernel or domain)
 - stock-metrics-adapter (adapter or infrastructure)
+
+
+## DynamoDB
+- テーブル作成
+```sh
+$ aws dynamodb \
+  --endpoint-url http://localhost:8000 \
+    create-table \
+  --table-name example \
+  --attribute-definitions \
+    AttributeName=Id,AttributeType=N \
+  --key-schema \
+    AttributeName=Id,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST
+
+```
+- テーブル一覧
+```sh
+$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+```
+- アイテム作成
+```sh
+$ aws dynamodb put-item --endpoint-url http://localhost:8000 --table-name example --item '{"Id": {"N": "1"}, "Name": {"S": "user1"}}'
+```
