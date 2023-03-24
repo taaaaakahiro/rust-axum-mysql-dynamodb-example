@@ -1,4 +1,4 @@
-# stock-metrics
+# rust_axum_mysql_dynamodb
 
 Stock price and stats viewer.
 
