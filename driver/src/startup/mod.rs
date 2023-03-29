@@ -1,13 +1,19 @@
-use crate::routes::health::hc;
-use axum::{routing::get, Router};
+use crate::{
+    module::Modules,
+    routes::health::{hc, hc_db},
+};
+use axum::{extract::Extension, routing::get, Router};
 use dotenv::dotenv;
 use std::env;
 use std::net::{IpAddr, SocketAddr};
+use std::sync::Arc;
 
-pub async fn startup() {
-    let hc_router = Router::new().route("/", get(hc));
+pub async fn startup(modules: Arc<Modules>) {
+    let hc_router = Router::new().route("/", get(hc)).route("/db", get(hc_db));
 
-    let app = Router::new().nest("/hc", hc_router);
+    let app = Router::new()
+        .nest("/hc", hc_router)
+        .layer(Extension(modules));
 
     let addr = SocketAddr::from(init_addr());
 

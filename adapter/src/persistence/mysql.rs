@@ -10,9 +10,7 @@ impl Db {
     pub async fn new() -> Db {
         let pool = MySqlPoolOptions::new()
             .max_connections(8)
-            .connect(
-                &env::var("DATABASE_URL").unwrap_or_else(|_| panic!("DATABASE_URL must be set!")),
-            )
+            .connect(&env::var("MYSQL_DSN").unwrap_or_else(|_| panic!("MYSQL_DSN must be set!")))
             .await
             .unwrap_or_else(|_| {
                 panic!("Cannot connect to the database. Please check your configuration.")
