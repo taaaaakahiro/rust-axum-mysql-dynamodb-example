@@ -15,7 +15,7 @@ pub async fn hc() -> impl IntoResponse {
 pub async fn hc_db(
     Extension(module): Extension<Arc<Modules>>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    tracing::debug!("Access db health check endpoint from user!");
+    tracing::debug!("Access DB health check endpoint from user!");
     module
         .health_check_use_case()
         .diagnose_db_conn()
