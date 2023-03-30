@@ -31,9 +31,14 @@ mod test {
         let db = Db::new().await;
         let repository = DatabaseRepositoryImpl::new(db);
 
-        let id = "1".to_string();
+        let id = String::from("1");
         let got = repository.find_one(&id).await.unwrap().unwrap();
         assert_eq!(got.id, "1");
         assert_eq!(got.name, "user1");
+
+        let id = String::from("2");
+        let got = repository.find_one(&id).await.unwrap().unwrap();
+        assert_eq!(got.id, "2");
+        assert_eq!(got.name, "user2");
     }
 }
