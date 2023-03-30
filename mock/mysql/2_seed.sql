@@ -1,5 +1,5 @@
-INSERT INTO `users` (name) VALUES
-    ("user1"),
-    ("user2"),
-    ("user3"),
-    ("user4");
+INSERT INTO `users` (id, name) VALUES
+    ("1", "user1"),
+    ("2", "user2"),
+    ("3", "user3"),
+    ("4", "user4");

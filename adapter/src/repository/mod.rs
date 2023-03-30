@@ -5,10 +5,11 @@ use derive_new::new;
 use crate::persistence::{dynamodb::DynamoDB, mysql::Db};
 
 pub mod health_check;
+pub mod user;
 
 #[derive(new)]
 pub struct DatabaseRepositoryImpl<T> {
-    _pool: Db,
+    db: Db,
     _marker: PhantomData<T>,
 }
 
