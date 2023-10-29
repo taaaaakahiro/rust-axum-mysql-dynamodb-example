@@ -1,7 +1,7 @@
 [workspace]
 members = [
-	"driver",
-	"adapter",
-	"app",
-	"kernel"
+	"rust-driver",
+	"rust-adapter",
+    "rust-app",
+	"rust-kernel"
 ]
