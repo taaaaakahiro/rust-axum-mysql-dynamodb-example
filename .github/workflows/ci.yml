@@ -3,10 +3,14 @@ name: Rust CI
 on:
   push:
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+env:
+  RUST_LOG: debug
+  HOST: 127.0.0.1
+  PORT: 8080
+  MYSQL_DSN: mysql://root:password@localhost:33063/example
 
+jobs:
+  build_and_test:
     services:
       mysql:
         image: mysql:8.0
@@ -17,21 +21,22 @@ jobs:
           MYSQL_DATABASE: example
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-
+    name: Rust project
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
         with:
-          profile: minimal
-          toolchain: stable  # もし必要ならば、利用するRustのバージョンに合わせて変更
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+        env:
+          PORT: ${{ env.PORT }}
+          HOST: ${{ env.HOST }}
+          MYSQL_DSN: ${{ env.MYSQL_DSN }}
 
-      - name: Install dependencies
-        run: |
-          rustup update
-          cargo build --all
 
-      - name: Run tests
-        run: cargo test --all
+
+
+
