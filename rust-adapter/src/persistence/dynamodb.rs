@@ -38,8 +38,8 @@ mod test {
     use super::{init_client, DynamoDB};
 
     #[tokio::test]
-    #[ignore]
     async fn test_list_table() {
+        //TODO: test
         let client = init_client().await;
         let dynamodb = DynamoDB::new(client);
         let _ = dynamodb.list_tables().await;

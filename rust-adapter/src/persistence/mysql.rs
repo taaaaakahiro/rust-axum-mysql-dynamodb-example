@@ -1,7 +1,6 @@
+use sqlx::{mysql::MySqlPoolOptions, MySql, Pool};
 use std::env;
 use std::sync::Arc;
-
-use sqlx::{mysql::MySqlPoolOptions, MySql, Pool};
 
 #[derive(Clone)]
 pub struct Db(pub(crate) Arc<Pool<MySql>>);
