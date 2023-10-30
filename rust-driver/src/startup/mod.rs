@@ -18,7 +18,6 @@ pub async fn startup(modules: Arc<Modules>) {
     let addr = SocketAddr::from(init_addr());
 
     tracing::info!("Server listening on {}", addr);
-
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
@@ -45,6 +44,5 @@ fn init_addr() -> (IpAddr, u16) {
         .parse::<u16>()
         .expect("PORT is invalid.");
 
-    tracing::debug!("Init ip address.");
     (ip_addr, port)
 }

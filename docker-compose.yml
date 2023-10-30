@@ -3,7 +3,7 @@ version: "3"
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql_server
+    container_name: rust-axum-mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: example
@@ -15,7 +15,7 @@ services:
         --default-authentication-plugin=mysql_native_password,
       ]
     ports:
-      - 3306:3306
+      - 33063:3306
     volumes:
       - ./mock/mysql/:/docker-entrypoint-initdb.d/
 
