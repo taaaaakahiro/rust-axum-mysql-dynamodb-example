@@ -18,7 +18,6 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
             None => Ok(None),
         }
     }
-    
 }
 
 #[cfg(test)]
