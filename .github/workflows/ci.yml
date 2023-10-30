@@ -8,6 +8,7 @@ env:
   HOST: 127.0.0.1
   PORT: 8080
   MYSQL_DSN: mysql://root:password@localhost:33063/example
+  MYSQL_PORT: 33063
 
 jobs:
   build_and_test:
@@ -15,11 +16,11 @@ jobs:
       mysql:
         image: mysql:8.0
         ports:
-          - 33063:3306
+          - ${{ env.MYSQL_PORT }}:3306
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: example
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=5s --health-retries=3
 
     name: Rust project
     runs-on: ubuntu-latest
@@ -32,6 +33,7 @@ jobs:
         with:
           command: test
         env:
+          RUST_LOG: debug
           PORT: ${{ env.PORT }}
           HOST: ${{ env.HOST }}
           MYSQL_DSN: ${{ env.MYSQL_DSN }}
