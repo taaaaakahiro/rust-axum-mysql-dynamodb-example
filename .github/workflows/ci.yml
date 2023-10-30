@@ -1,0 +1,26 @@
+name: Rust CI
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable  # もし必要ならば、利用するRustのバージョンに合わせて変更
+
+      - name: Install dependencies
+        run: |
+          rustup update
+          cargo build --all
+
+      - name: Run tests
+        run: cargo test --all
