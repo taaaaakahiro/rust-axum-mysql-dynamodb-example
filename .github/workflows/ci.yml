@@ -6,6 +6,13 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mysql-version: [ '8.0' ]
+        mysql-dbname: [ 'example' ]
+        mysql-root-user: [ 'root' ]
+        mysql-root-password: [ 'password' ]
+
     services:
       db:
         image: mysql:${{ matrix.mysql-version }}
