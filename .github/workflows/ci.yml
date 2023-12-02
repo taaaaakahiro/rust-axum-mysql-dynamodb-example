@@ -1,0 +1,48 @@
+name: Rust CI
+
+on:
+  push:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mysql-version: [ '8.0' ]
+        mysql-dbname: [ 'example' ]
+        mysql-root-user: [ 'root' ]
+        mysql-root-password: [ 'password' ]
+
+    services:
+      db:
+        image: mysql:${{ matrix.mysql-version }}
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: ${{ matrix.mysql-dbname }}
+          MYSQL_ROOT_USER: ${{ matrix.mysql-root-user }}
+          MYSQL_ROOT_PASSWORD: ${{ matrix.mysql-root-password }}
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    name: Rust project
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+        env:
+          RUST_LOG: debug
+          PORT: 8080
+          HOST: 127.0.0.1
+          MYSQL_DSN: mysql://root:password@localhost:3306/example
+
+
+
+
+

@@ -8,14 +8,14 @@ use tracing::error;
 use crate::module::{Modules, ModulesExt};
 
 pub async fn hc() -> impl IntoResponse {
-    tracing::debug!("Access health check endpoint from user!");
+    tracing::info!("Access health check endpoint from user!");
     StatusCode::NO_CONTENT
 }
 
 pub async fn hc_db(
     Extension(module): Extension<Arc<Modules>>,
 ) -> Result<impl IntoResponse, StatusCode> {
-    tracing::debug!("Access DB health check endpoint from user!");
+    tracing::info!("Access DB health check endpoint from user!");
     module
         .health_check_use_case()
         .diagnose_db_conn()
