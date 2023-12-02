@@ -12,7 +12,7 @@ This app now takes advantage of the following tools:
 ### Run the app
 
 ```sh
-$ cp .env.sample .env
+$ cp sample.envrc .envrc
 $ rustup update # update rust tool chain
 $ cargo update # update rust dependencies
 $ cargo run # run api server
