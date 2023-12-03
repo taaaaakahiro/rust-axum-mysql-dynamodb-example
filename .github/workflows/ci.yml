@@ -39,8 +39,6 @@ jobs:
             mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < $FILE
           done
 
-#          mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < ./mock/mysql/1_init.sql
-#          mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < ./mock/mysql/2_seed.sql
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
