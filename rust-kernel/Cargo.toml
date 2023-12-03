@@ -8,6 +8,6 @@ edition = "2021"
 [dependencies]
 chrono = "0.4.19"
 derive-new = "0.5.9"
-anyhow = "1.0.44"
+anyhow = "1.0.75"
 async-trait = "0.1.51"
 ulid = "1.0.0"
