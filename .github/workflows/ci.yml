@@ -12,7 +12,6 @@ jobs:
         mysql-dbname: [ 'example' ]
         mysql-root-user: [ 'root' ]
         mysql-root-password: [ 'password' ]
-        mysql-port: [ '3306' ]
 
     services:
       db:
@@ -50,8 +49,7 @@ jobs:
           RUST_LOG: debug
           PORT: 8080
           HOST: 127.0.0.1
-          MYSQL_DSN: mysql://${{ matrix.mysql-root-user }}:${{ matrix.mysql-root-password }}@localhost:3306}/${{ matrix.mysql-dbname }}
-
+          MYSQL_DSN: mysql://root:password@localhost:3306/example
 
 
 
