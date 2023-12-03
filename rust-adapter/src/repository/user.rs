@@ -45,7 +45,7 @@ mod test {
     use kernel::repository::user::UserRepository;
 
     #[tokio::test]
-    async fn test_find_one() {
+    async fn find_one() {
         let db = Db::new().await;
         let repository = DatabaseRepositoryImpl::new(db);
 
@@ -59,7 +59,7 @@ mod test {
     }
 
     #[tokio::test]
-    async fn test_find() {
+    async fn find() {
         let db = Db::new().await;
         let repository = DatabaseRepositoryImpl::new(db);
 
