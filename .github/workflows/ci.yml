@@ -18,7 +18,7 @@ jobs:
       db:
         image: mysql:${{ matrix.mysql-version }}
         ports:
-          - ${{ matrix.mysql-port }}:3306
+          - ${{ matrix.mysql-port }}:${{ matrix.mysql-port }}
         env:
           MYSQL_DATABASE: ${{ matrix.mysql-dbname }}
           MYSQL_ROOT_USER: ${{ matrix.mysql-root-user }}
