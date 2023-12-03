@@ -30,7 +30,6 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
             .map(|u| User {
                 id: u.id,
                 name: u.name,
-                // 必要なフィールドがあればここに追加
                 created_at: Default::default(),
             })
             .collect();
