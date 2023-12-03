@@ -6,4 +6,5 @@ use crate::model::user::User;
 pub trait UserRepository {
     async fn find_one(&self, id: &String) -> anyhow::Result<Option<User>>;
     async fn find(&self) -> anyhow::Result<Vec<User>>;
+    async fn insert(&self, user: &User) -> anyhow::Result<String>;
 }
