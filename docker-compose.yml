@@ -31,7 +31,7 @@ services:
     
   dynamodb-admin:
     container_name: dynamodb-admin
-    image: aaronshaf/dynamodb-admin:4.5.1
+    image: aaronshaf/dynamodb-admin:4.6.1
     environment:
       - DYNAMO_ENDPOINT=dynamodb:8000
     ports:
