@@ -12,6 +12,7 @@ jobs:
         mysql-dbname: [ 'example' ]
         mysql-root-user: [ 'root' ]
         mysql-root-password: [ 'password' ]
+        mysql-port: [ '3306' ]
 
     services:
       db:
@@ -36,7 +37,7 @@ jobs:
           SQL_FILES=$(find . -name "*.sql")
           for FILE in $SQL_FILES; do
             echo "Running SQL file: $FILE"
-            mysql -h 127.0.0.1 --port 3306:3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < $FILE
+            mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < $FILE
           done
 
       - uses: actions-rs/toolchain@v1
