@@ -18,6 +18,24 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
             None => Ok(None),
         }
     }
+
+    async fn find(&self) -> anyhow::Result<Vec<User>> {
+        let pool = self.db.0.clone();
+        let user_records = query_as::<_, UserTable>("select * from users ORDER BY id ASC")
+            .fetch_all(&*pool)
+            .await?;
+
+        let users: Vec<User> = user_records
+            .into_iter()
+            .map(|u| User {
+                id: u.id,
+                name: u.name,
+                created_at: u.created_at,
+            })
+            .collect();
+
+        Ok(users)
+    }
 }
 
 #[cfg(test)]
@@ -27,12 +45,29 @@ mod test {
     use kernel::repository::user::UserRepository;
 
     #[tokio::test]
-    async fn test_find_user() {
+    async fn find_one() {
         let db = Db::new().await;
         let repository = DatabaseRepositoryImpl::new(db);
 
-        let id = String::from("1");
-        let _got = repository.find_one(&id).await.expect("failed to get");
-        //todo
+        let id = String::from("userId1");
+        let got = repository
+            .find_one(&id)
+            .await
+            .expect("failed to get users")
+            .expect("user is not found");
+        assert_eq!(got.id, id)
+    }
+
+    #[tokio::test]
+    async fn find() {
+        let db = Db::new().await;
+        let repository = DatabaseRepositoryImpl::new(db);
+
+        let got = repository.find().await.expect("failed to get");
+        assert_eq!(got.len(), 4);
+        assert_eq!(got[0].id, "userId1");
+        assert_eq!(got[1].id, "userId2");
+        assert_eq!(got[2].id, "userId3");
+        assert_eq!(got[3].id, "userId4");
     }
 }
