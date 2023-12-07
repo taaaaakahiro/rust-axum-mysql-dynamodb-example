@@ -11,4 +11,4 @@ adapter = { path  = "../rust-adapter" }
 derive-new = "0.5.9"
 tokio = { version = "1.12.0", features = ["full"] }
 anyhow = "1.0.75"
-chrono = "0.4.19"
+chrono = "0.4.31"
