@@ -51,6 +51,18 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
         Ok(user_table.id.try_into()?)
     }
 
+    async fn update(&self, user: NewUser) -> anyhow::Result<String> {
+        let pool = self.db.0.clone();
+        let user_table: UserTable = user.try_into()?;
+        let _ = sqlx::query("update users set name = ? where id = ?")
+            .bind(&user_table.name)
+            .bind(&user_table.id)
+            .execute(&*pool)
+            .await?;
+
+        Ok(user_table.id.try_into()?)
+    }
+
     async fn delete_one(&self, id: &String) -> anyhow::Result<()> {
         let pool = self.db.0.clone();
         let _ = sqlx::query("delete from users where id = ?")
@@ -115,5 +127,29 @@ mod test {
             .await
             .expect("failed to delete user");
         assert_eq!(got, ())
+    }
+
+    #[tokio::test]
+    async fn update() {
+        let db = Db::new().await;
+        let user_repo = DatabaseRepositoryImpl::new(db);
+
+        let id = String::from("userId1");
+        let name = String::from("updatedName");
+        let user = NewUser {
+            id: id.clone(),
+            name: name.clone(),
+        };
+        //exec
+        let got = user_repo.update(user).await.expect("failed to update user");
+        assert_eq!(got, id.clone());
+
+        //check
+        let u = user_repo
+            .find_one(&id)
+            .await
+            .expect("failed to get user")
+            .unwrap();
+        assert_eq!(u.name, name)
     }
 }
