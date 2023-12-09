@@ -112,4 +112,28 @@ mod test {
 
         assert_eq!(got, id.clone());
     }
+
+    #[tokio::test]
+    async fn update() {
+        let db = Db::new().await;
+        let user_repo = DatabaseRepositoryImpl::new(db);
+
+        let id = String::from("userId1");
+        let name = String::from("updatedName");
+        let user = NewUser {
+            id: id.clone(),
+            name: name.clone(),
+        };
+        //exec
+        let got = user_repo.update(user).await.expect("failed to update user");
+        assert_eq!(got, id.clone());
+
+        //check
+        let u = user_repo
+            .find_one(&id)
+            .await
+            .expect("failed to get user")
+            .unwrap();
+        assert_eq!(u.name, name)
+    }
 }
