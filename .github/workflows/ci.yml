@@ -34,10 +34,10 @@ jobs:
       - name: Run SQL on Service
         run: |
           SQL_FILES=$(find . -name "*.sql")
-#          for FILE in $SQL_FILES; do
-#            echo "Running SQL file: $FILE"
-#            mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < $FILE
-#          done
+          for FILE in $SQL_FILES; do
+            echo "Running SQL file: $FILE"
+            mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < $FILE
+          done
 
       - uses: actions-rs/toolchain@v1
         with:
