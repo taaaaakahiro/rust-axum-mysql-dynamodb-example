@@ -15,7 +15,7 @@ services:
         --default-authentication-plugin=mysql_native_password,
       ]
     ports:
-      - 33063:3306
+      - "33063:3306"
     volumes:
       - ./mock/mysql/:/docker-entrypoint-initdb.d/
 
@@ -27,14 +27,14 @@ services:
     volumes:
       - ./data/dynamodb:/data
     ports:
-      - 8000:8000
+      - "8000:8000"
     
   dynamodb-admin:
     container_name: dynamodb-admin
-    image: aaronshaf/dynamodb-admin:4.5.1
+    image: aaronshaf/dynamodb-admin:4.6.1
     environment:
       - DYNAMO_ENDPOINT=dynamodb:8000
     ports:
-      - 8001:8001
+      - "8001:8001"
     depends_on:
       - dynamodb

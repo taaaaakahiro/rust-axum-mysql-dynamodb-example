@@ -1,7 +1,10 @@
 use super::DatabaseRepositoryImpl;
 use crate::model::user::UserTable;
 use async_trait::async_trait;
-use kernel::{model::user::User, repository::user::UserRepository};
+use kernel::{
+    model::user::{NewUser, User},
+    repository::user::UserRepository,
+};
 use sqlx::query_as;
 
 #[async_trait]
@@ -30,11 +33,22 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
             .map(|u| User {
                 id: u.id,
                 name: u.name,
-                created_at: Default::default(),
+                created_at: u.created_at,
             })
             .collect();
 
         Ok(users)
+    }
+
+    async fn insert(&self, input: NewUser) -> anyhow::Result<String> {
+        let pool = self.db.0.clone();
+        let user_table: UserTable = input.try_into()?;
+        let _ = sqlx::query("insert into users (id, name) values (?, ?)")
+            .bind(&user_table.id)
+            .bind(&user_table.name)
+            .execute(&*pool)
+            .await?;
+        Ok(user_table.id.try_into()?)
     }
 
     async fn delete_one(&self, id: &String) -> anyhow::Result<()> {
@@ -51,15 +65,16 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
 mod test {
     use super::DatabaseRepositoryImpl;
     use crate::persistence::mysql::Db;
+    use kernel::model::user::NewUser;
     use kernel::repository::user::UserRepository;
 
     #[tokio::test]
-    async fn test_find_one() {
+    async fn find_one() {
         let db = Db::new().await;
-        let repository = DatabaseRepositoryImpl::new(db);
+        let user_repo = DatabaseRepositoryImpl::new(db);
 
         let id = String::from("userId1");
-        let got = repository
+        let got = user_repo
             .find_one(&id)
             .await
             .expect("failed to get users")
@@ -68,11 +83,11 @@ mod test {
     }
 
     #[tokio::test]
-    async fn test_find() {
+    async fn find() {
         let db = Db::new().await;
-        let repository = DatabaseRepositoryImpl::new(db);
+        let user_repo = DatabaseRepositoryImpl::new(db);
 
-        let got = repository.find().await.expect("failed to get");
+        let got = user_repo.find().await.expect("failed to get");
         assert_eq!(got.len(), 4);
         assert_eq!(got[0].id, "userId1");
         assert_eq!(got[1].id, "userId2");
@@ -81,15 +96,24 @@ mod test {
     }
 
     #[tokio::test]
-    async fn test_delete_one() {
+    async fn insert_and_delete() {
         let db = Db::new().await;
-        let repository = DatabaseRepositoryImpl::new(db);
+        let user_repo = DatabaseRepositoryImpl::new(db);
 
-        let got = repository.find().await.expect("failed to get");
-        assert_eq!(got.len(), 4);
-        assert_eq!(got[0].id, "userId1");
-        assert_eq!(got[1].id, "userId2");
-        assert_eq!(got[2].id, "userId3");
-        assert_eq!(got[3].id, "userId4");
+        // insert
+        let id = String::from("userId100");
+        let user = NewUser {
+            id: id.clone(),
+            name: String::from("userName100"),
+        };
+        let got = user_repo.insert(user).await.expect("failed to insert user");
+        assert_eq!(got, id.clone());
+
+        // delete
+        let got = user_repo
+            .delete_one(&id)
+            .await
+            .expect("failed to delete user");
+        assert_eq!(got, ())
     }
 }
