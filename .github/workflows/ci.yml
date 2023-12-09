@@ -34,13 +34,12 @@ jobs:
 
       - name: Run SQL on Service
         run: |
+          mysql -h 127.0.0.1 --port 3306 -u root -ppassword -D example < ./mock/mysql/1_init.sql
 #          SQL_FILES=$(find . -name "*.sql")
 #          for FILE in $SQL_FILES; do
 #            echo "Running SQL file: $FILE"
 #            mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < $FILE
 #          done
-          mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < 1_init.sql
-          mysql -h 127.0.0.1 --port 3306 -u ${{ matrix.mysql-root-user }} -p${{ matrix.mysql-root-password }} -D ${{ matrix.mysql-dbname }} < 2_seed.sql
 
       - uses: actions-rs/toolchain@v1
         with:
