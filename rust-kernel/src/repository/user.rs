@@ -1,10 +1,11 @@
 use async_trait::async_trait;
 
-use crate::model::user::User;
+use crate::model::user::{NewUser, User};
 
 #[async_trait]
 pub trait UserRepository {
     async fn find_one(&self, id: &String) -> anyhow::Result<Option<User>>;
     async fn find(&self) -> anyhow::Result<Vec<User>>;
-    async fn update(&self, user: &User) -> anyhow::Result<String>;
+    async fn insert(&self, id: NewUser) -> anyhow::Result<String>;
+    async fn update(&self, user: NewUser) -> anyhow::Result<String>;
 }

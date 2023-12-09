@@ -8,12 +8,12 @@ edition = "2021"
 [dependencies]
 kernel = { path = "../rust-kernel" }
 sqlx = { version = "0.5", features = ["runtime-tokio-rustls", "mysql", "chrono"] }
-anyhow = "1.0.44"
+anyhow = "1.0.75"
 tokio = { version = "1.12.0", features = ["rt", "macros", "test-util"] }
-async-trait = "0.1.51"
-chrono = "0.4.19"
+async-trait = "0.1.74"
+chrono = "0.4.31"
 ulid = "0.4.1"
 aws-config = "0.3.0"
 aws-sdk-dynamodb = "0.3.0"
-http = "0.2.5"
+http = "0.2.11"
 derive-new = "0.5.9"
