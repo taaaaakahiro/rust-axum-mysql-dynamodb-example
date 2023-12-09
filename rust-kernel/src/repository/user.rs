@@ -8,4 +8,5 @@ pub trait UserRepository {
     async fn find(&self) -> anyhow::Result<Vec<User>>;
     async fn insert(&self, id: NewUser) -> anyhow::Result<String>;
     async fn update(&self, user: NewUser) -> anyhow::Result<String>;
+    async fn delete_one(&self, id: &String) -> anyhow::Result<()>;
 }
