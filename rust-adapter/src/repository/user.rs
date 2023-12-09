@@ -50,6 +50,15 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
             .await?;
         Ok(user_table.id.try_into()?)
     }
+
+    async fn delete_one(&self, id: &String) -> anyhow::Result<()> {
+        let pool = self.db.0.clone();
+        let _ = sqlx::query("delete from users where id = ?")
+            .bind(id)
+            .execute(&*pool)
+            .await?;
+        Ok(())
+    }
 }
 
 #[cfg(test)]
@@ -87,17 +96,24 @@ mod test {
     }
 
     #[tokio::test]
-    async fn test_insert() {
+    async fn insert_and_delete() {
         let db = Db::new().await;
         let user_repo = DatabaseRepositoryImpl::new(db);
 
+        // insert
         let id = String::from("userId100");
         let user = NewUser {
             id: id.clone(),
             name: String::from("userName100"),
         };
         let got = user_repo.insert(user).await.expect("failed to insert user");
-
         assert_eq!(got, id.clone());
+
+        // delete
+        let got = user_repo
+            .delete_one(&id)
+            .await
+            .expect("failed to delete user");
+        assert_eq!(got, ())
     }
 }
