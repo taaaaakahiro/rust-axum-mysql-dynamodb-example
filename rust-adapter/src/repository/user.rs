@@ -36,6 +36,15 @@ impl UserRepository for DatabaseRepositoryImpl<User> {
 
         Ok(users)
     }
+
+    async fn delete_one(&self, id: &String) -> anyhow::Result<()> {
+        let pool = self.db.0.clone();
+        let _ = sqlx::query("delete from users where id = ?")
+            .bind(id)
+            .execute(&*pool)
+            .await?;
+        Ok(())
+    }
 }
 
 #[cfg(test)]
@@ -60,6 +69,19 @@ mod test {
 
     #[tokio::test]
     async fn test_find() {
+        let db = Db::new().await;
+        let repository = DatabaseRepositoryImpl::new(db);
+
+        let got = repository.find().await.expect("failed to get");
+        assert_eq!(got.len(), 4);
+        assert_eq!(got[0].id, "userId1");
+        assert_eq!(got[1].id, "userId2");
+        assert_eq!(got[2].id, "userId3");
+        assert_eq!(got[3].id, "userId4");
+    }
+
+    #[tokio::test]
+    async fn test_delete_one() {
         let db = Db::new().await;
         let repository = DatabaseRepositoryImpl::new(db);
 
