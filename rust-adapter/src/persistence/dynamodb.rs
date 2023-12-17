@@ -12,7 +12,7 @@ pub struct DynamoDB {
 
 pub async fn init_client() -> Client {
     let config = load_from_env().await;
-    let region = Region::from_static("ap-northeast-1");
+    let region = Region::from_str("ap-northeast-1");
 
     let dynamodb_uri = env::var("DYNAMODB_URI").expect("DYNAMODB_URI is not defined");
     let static_dynamodb_uri: &'static str = Box::leak(dynamodb_uri.into_boxed_str());
