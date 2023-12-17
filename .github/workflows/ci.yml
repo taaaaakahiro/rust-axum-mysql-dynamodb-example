@@ -38,10 +38,10 @@ jobs:
 
     name: Rust project
     steps:
-
       - uses: actions/checkout@v3
       - run: |
-          docker exec -u root dynamodb java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath /data sharedDb
+#          docker exec -u root dynamodb java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath /data sharedDb
+               docker exec -u root services_dynamodb_1 java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath /data sharedDb
           aws dynamodb create-table --cli-input-json file://users-table.json --endpoint-url http://localhost:8000
           aws dynamodb create-table --cli-input-json file://users-table.json --endpoint-url http://localhost:8000
       - run: aws dynamodb describe-table --table-name users-table --endpoint-url http://localhost:8000
