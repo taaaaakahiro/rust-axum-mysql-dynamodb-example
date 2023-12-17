@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use aws_config::load_from_env;
 use aws_sdk_dynamodb::config::Builder;
-use aws_sdk_dynamodb::{Client, Endpoint};
+use aws_sdk_dynamodb::{Client, Endpoint, Region};
 use http::Uri;
 
 pub struct DynamoDB {
@@ -12,9 +12,12 @@ pub struct DynamoDB {
 
 pub async fn init_client() -> Client {
     let config = load_from_env().await;
+    let region = Region::from_static("ap-northeast-");
+
     let dynamodb_uri = env::var("DYNAMODB_URI").expect("DYNAMODB_URI is not defined");
     let static_dynamodb_uri: &'static str = Box::leak(dynamodb_uri.into_boxed_str());
     let config = Builder::from(&config)
+        .region(region)
         .endpoint_resolver(Endpoint::immutable(Uri::from_static(static_dynamodb_uri)))
         .build();
     let dynamodb = Client::from_conf(config);
