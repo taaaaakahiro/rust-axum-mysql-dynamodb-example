@@ -26,7 +26,7 @@ impl HealthCheckRepository {
     }
 
     pub async fn check_dynamo_db(&self) -> anyhow::Result<()> {
-        let _ = self.dynamo_db.list_tables().await?;
+        let _ = self.dynamo_db.list_table_names().await?;
         Ok(())
     }
 }
