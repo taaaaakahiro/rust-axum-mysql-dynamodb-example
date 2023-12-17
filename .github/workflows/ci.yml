@@ -61,6 +61,7 @@ jobs:
           PORT: 8080
           HOST: 127.0.0.1
           MYSQL_DSN: mysql://root:password@localhost:3306/example
+          DYNAMODB_URI: http://localhost:8000
 
 
 
