@@ -78,6 +78,8 @@ jobs:
           HOST: 127.0.0.1
           MYSQL_DSN: mysql://root:password@localhost:3306/example
           DYNAMODB_URI: http://localhost:8000
+          AWS_ACCESS_KEY_ID: dummy
+          AWS_SECRET_ACCESS_KEY: dummy
 
 
 
