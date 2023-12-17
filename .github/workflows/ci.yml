@@ -32,18 +32,31 @@ jobs:
         image: amazon/dynamodb-local
         ports:
           - 8000:8000
-        env:
-          AWS_ACCESS_KEY_ID: dummy
-          AWS_SECRET_ACCESS_KEY: dummy
 
     name: Rust project
     steps:
+      - name: Setup DynamoDB Local
+        env:
+          AWS_ACCESS_KEY_ID: dummy
+          AWS_SECRET_ACCESS_KEY: dummy
+          AWS_DEFAULT_REGION: ap-northeast-1
+        # create-table とかする
+        # https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/Tools.CLI.html
+        run: |
+          aws dynamodb create-table --endpoint-url http://localhost:8000 \
+            --table-name users \
+            --attribute-definitions AttributeName=hoge,AttributeType=S \
+            --key-schema AttributeName=hoge,KeyType=HASH \
+            --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
+
+      - name: Check DynamoDB Table
+        env:
+          AWS_ACCESS_KEY_ID: dummy
+          AWS_SECRET_ACCESS_KEY: dummy
+          AWS_DEFAULT_REGION: ap-northeast-1
+        run: aws dynamodb describe-table --endpoint-url http://localhost:8000 --table-name users
+
       - uses: actions/checkout@v3
-      - run: |
-          docker exec -u root services_dynamodb_1 java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath /data sharedDb
-          aws dynamodb create-table --cli-input-json file://users-table.json --endpoint-url http://localhost:8000
-          aws dynamodb create-table --cli-input-json file://users-table.json --endpoint-url http://localhost:8000
-      - run: aws dynamodb describe-table --table-name users-table --endpoint-url http://localhost:8000
 
       - name: Run SQL on Service
         run: |
