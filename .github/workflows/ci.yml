@@ -27,6 +27,17 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+      dynamodb:
+        image: amazon/dynamodb-local
+        ports:
+          - 8000:8000
+        options: --network host
+        env:
+          AWS_REGION: ap-northeast-1
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+
     name: Rust project
     steps:
       - uses: actions/checkout@v2
