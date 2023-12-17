@@ -34,12 +34,12 @@ jobs:
           - 8000:8000
         env:
           AWS_REGION: ap-northeast-1
-          AWS_ACCESS_KEY_ID: test
-          AWS_SECRET_ACCESS_KEY: test
 
     name: Rust project
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - run: aws dynamodb create-table --cli-input-json file://users-table.json --endpoint-url http://localhost:8000
+      - run: aws dynamodb describe-table --table-name users-table --endpoint-url http://localhost:8000
 
       - name: Run SQL on Service
         run: |
