@@ -9,3 +9,6 @@ test: fmt
 
 clean:
 	cargo clean
+
+dynamodb-items:
+	node ./mock/dynamodb/items.js
