@@ -26,7 +26,7 @@ const { v4: uuidv4 } = require('uuid');
 
     const command = new BatchWriteItemCommand({
         RequestItems: {
-            'examples': putRequests
+            'users': putRequests
         }
     });
     try {
