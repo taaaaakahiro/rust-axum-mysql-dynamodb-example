@@ -30,5 +30,3 @@ impl HealthCheckRepository {
         Ok(())
     }
 }
-
-
