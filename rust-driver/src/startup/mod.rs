@@ -15,7 +15,8 @@ pub async fn startup(modules: Arc<Modules>) {
 
     let app = Router::new()
         .nest("/hc", hc_router)
-        .nest("/user", user_router)
+        .nest("/user", user_router.clone())
+        .nest("/user/:id", user_router.clone())
         .layer(Extension(modules));
 
     let addr = SocketAddr::from(init_addr());
