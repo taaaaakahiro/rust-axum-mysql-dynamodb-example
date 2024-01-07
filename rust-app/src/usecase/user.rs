@@ -14,6 +14,10 @@ impl<R: RepositoriesModuleExt> UserUseCase<R> {
     pub async fn find(&self) -> anyhow::Result<Vec<User>> {
         self.repositories.user_repo().find().await
     }
+
+    pub async fn find_one(&self, id: &String) -> anyhow::Result<Option<User>> {
+        self.repositories.user_repo().find_one(id).await
+    }
 }
 
 #[cfg(test)]

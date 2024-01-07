@@ -1,4 +1,4 @@
-use crate::routes::user::user_find;
+use crate::routes::user::{user_find, user_find_one};
 use crate::{
     module::Modules,
     routes::health::{hc, hc_db},
@@ -11,7 +11,9 @@ use std::sync::Arc;
 
 pub async fn startup(modules: Arc<Modules>) {
     let hc_router = Router::new().route("/", get(hc)).route("/db", get(hc_db));
-    let user_router = Router::new().route("/", get(user_find));
+    let user_router = Router::new()
+        .route("/", get(user_find))
+        .route("/:id", get(user_find_one));
 
     let app = Router::new()
         .nest("/hc", hc_router)
