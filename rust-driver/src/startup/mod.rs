@@ -1,3 +1,4 @@
+use crate::routes::health::hc_dynamo;
 use crate::routes::user::{user_find, user_find_one};
 use crate::{
     module::Modules,
@@ -10,7 +11,10 @@ use std::net::{IpAddr, SocketAddr};
 use std::sync::Arc;
 
 pub async fn startup(modules: Arc<Modules>) {
-    let hc_router = Router::new().route("/", get(hc)).route("/db", get(hc_db));
+    let hc_router = Router::new()
+        .route("/", get(hc))
+        .route("/db", get(hc_db))
+        .route("/dynamo_db", get(hc_dynamo));
     let user_router = Router::new()
         .route("/", get(user_find))
         .route("/:id", get(user_find_one));

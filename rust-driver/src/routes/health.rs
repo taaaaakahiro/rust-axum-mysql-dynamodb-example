@@ -27,16 +27,17 @@ pub async fn hc_db(
         })
 }
 
-// pub async fn hc_dynamo(
-//     Extension(module): Extension<Arc<Modules>>,
-// ) -> Result<impl IntoResponse, StatusCode> {
-//     module
-//         .health_check_use_case()
-//         .diagnose_dynamo_db_conn()
-//         .await
-//         .map(|_| StatusCode::NO_CONTENT)
-//         .map_err(|err| {
-//             error!("{:?}", err);
-//             StatusCode::SERVICE_UNAVAILABLE
-//         })
-// }
+pub async fn hc_dynamo(
+    Extension(module): Extension<Arc<Modules>>,
+) -> Result<impl IntoResponse, StatusCode> {
+    tracing::info!("Access DynamoDB health check endpoint.");
+    module
+        .health_check_use_case()
+        .diagnose_dynamo_db_conn()
+        .await
+        .map(|_| StatusCode::NO_CONTENT)
+        .map_err(|err| {
+            error!("{:?}", err);
+            StatusCode::SERVICE_UNAVAILABLE
+        })
+}

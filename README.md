@@ -30,16 +30,20 @@ This example has 4 workspaces as following:
 ## DynamoDB
 - create table
 ```sh
-$ aws dynamodb \
-  --endpoint-url http://localhost:8000 \
-    create-table \
-  --table-name example \
-  --attribute-definitions \
-    AttributeName=Id,AttributeType=N \
-  --key-schema \
-    AttributeName=Id,KeyType=HASH \
-  --billing-mode PAY_PER_REQUEST
-
+# 1.create table
+$ aws dynamodb create-table \
+    --region ap-northeast-1 \
+    --endpoint-url http://localhost:8000 \
+    --table-name <table_name> \
+    --key-schema AttributeName=id,KeyType=HASH \
+    --attribute-definitions AttributeName=id,AttributeType=S \
+    --billing-mode PAY_PER_REQUEST
+# 2. check created tables
+$ aws dynamodb list-tables --endpoint-url http://localhost:8000
+# 3. insert items
+$ node ./mock/dynamodb/<item-name>.js
+# 4. check inserted items
+$ aws dynamodb scan --endpoint-url http://localhost:8000 --table-name <table_name>
 ```
 - list table
 ```sh

@@ -6,6 +6,7 @@ use crate::persistence::{dynamodb::DynamoDB, mysql::Db};
 
 pub mod health_check;
 pub mod user;
+pub mod user_item;
 
 #[derive(new)]
 pub struct DatabaseRepositoryImpl<T> {
@@ -15,6 +16,6 @@ pub struct DatabaseRepositoryImpl<T> {
 
 #[derive(new)]
 pub struct DynamoDBRepositoryImpl<T> {
-    _dynamo_db: DynamoDB,
+    dynamo_db: DynamoDB,
     _marker: PhantomData<T>,
 }
