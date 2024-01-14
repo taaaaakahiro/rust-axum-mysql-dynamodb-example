@@ -4,14 +4,16 @@ use aws_sdk_dynamodb::model::AttributeValue;
 use kernel::model::user_item::UserItem;
 use kernel::repository::user_item::UserItemRepository;
 
+const TABLE_NAME: &str = "users";
+
 #[async_trait]
 impl UserItemRepository for DynamoDBRepositoryImpl<UserItem> {
-    async fn get_item(&self, id: &String) -> anyhow::Result<Option<UserItem>> {
+    async fn get_by_id(&self, id: &String) -> anyhow::Result<Option<UserItem>> {
         match self
             .dynamo_db
             .client
             .get_item()
-            .table_name("users")
+            .table_name(TABLE_NAME)
             .key("id".to_string(), AttributeValue::N(id.to_string()))
             .send()
             .await
@@ -49,10 +51,7 @@ impl UserItemRepository for DynamoDBRepositoryImpl<UserItem> {
 mod test {
 
     #[tokio::test]
-    async fn get_item() {
+    async fn get_by_id() {
         //todo
-        // let cli = init_client().await;
-        // let db = DynamoDB::new(cli);
-        // let repo = DynamoDBRepositoryImpl::new(db);
     }
 }

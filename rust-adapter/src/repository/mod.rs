@@ -6,7 +6,7 @@ use crate::persistence::{dynamodb::DynamoDB, mysql::Db};
 
 pub mod health_check;
 pub mod user;
-mod user_item;
+pub mod user_item;
 
 #[derive(new)]
 pub struct DatabaseRepositoryImpl<T> {
