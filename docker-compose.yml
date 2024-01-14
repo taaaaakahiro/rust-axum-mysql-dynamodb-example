@@ -20,7 +20,7 @@ services:
       - ./mock/mysql/:/docker-entrypoint-initdb.d/
 
   dynamodb:
-    image: amazon/dynamodb-local:1.21.0
+    image: amazon/dynamodb-local:1.25.0
     user: root
     container_name: dynamodb_server
     command: -jar DynamoDBLocal.jar -sharedDb -dbPath /data sharedDb
